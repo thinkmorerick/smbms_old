@@ -2,6 +2,7 @@ package cn.smbms.service.impl.user;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import cn.smbms.dao.BaseDao;
 import cn.smbms.dao.impl.user.UserDaoImpl;
@@ -84,4 +85,20 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public List<User> getUserList(String queryUserName) {
+		Connection connection = null;
+		List<User> userList = null;
+		System.out.println("queryUserName ====>" + queryUserName);
+
+		try {
+			connection = BaseDao.getConnection();
+			userList = userDao.getUserList(connection, queryUserName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			BaseDao.closeResource(connection, null, null);
+		}
+		return userList;
+	}
 }

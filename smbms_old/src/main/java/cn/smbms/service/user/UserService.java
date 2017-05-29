@@ -1,5 +1,7 @@
 package cn.smbms.service.user;
 
+import java.util.List;
+
 import cn.smbms.pojo.User;
 
 public interface UserService {
@@ -18,4 +20,11 @@ public interface UserService {
 	 * @return
 	 */
 	public User login(String userCode, String userPassword);
+
+	/**
+	 * 查询用户列表
+	 * @param userName
+	 * @return
+	 */
+	public List<User> getUserList(String queryUserName);
 }

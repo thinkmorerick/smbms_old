@@ -44,8 +44,8 @@ public class LoginServlet extends HttpServlet {
 		} else { // 登录失败
 			// 页面跳转（login.jsp）带出提示信息--转发
 			request.setAttribute("error", "用户名或密码不正确");
-			request.getRequestDispatcher("login.jsp")
-					.forward(request, response);
+			request.getRequestDispatcher("/login.jsp").forward(request,
+					response);
 		}
 	}
 

@@ -1,5 +1,8 @@
 package cn.smbms.service.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,5 +27,12 @@ public class UserServiceTest {
 		// result = false;
 		// 断言
 		Assert.assertTrue("增加失败", result);
+	}
+
+	@Test
+	public void testGetUserList() {
+		List<User> userList = new ArrayList<User>();
+		userList = userService.getUserList("null");
+		Assert.assertEquals(10, userList.size());
 	}
 }

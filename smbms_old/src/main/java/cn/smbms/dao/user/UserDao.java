@@ -1,6 +1,7 @@
 package cn.smbms.dao.user;
 
 import java.sql.Connection;
+import java.util.List;
 
 import cn.smbms.pojo.User;
 
@@ -23,5 +24,15 @@ public interface UserDao {
 	 * @throws Exception
 	 */
 	public User getLoginUser(Connection connection, String userCode)
+			throws Exception;
+
+	/**
+	 * 通过userName模糊查询-userList
+	 * @param connection
+	 * @param userName
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> getUserList(Connection connection, String userName)
 			throws Exception;
 }

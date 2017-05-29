@@ -3,6 +3,8 @@ package cn.smbms.dao.impl.user;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.smbms.dao.BaseDao;
 import cn.smbms.dao.user.UserDao;
@@ -62,5 +64,33 @@ public class UserDaoImpl implements UserDao {
 			BaseDao.closeResource(null, pstm, rs);
 		}
 		return user;
+	}
+
+	@Override
+	public List<User> getUserList(Connection connection, String userName)
+			throws Exception {
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<User> userList = new ArrayList<User>();
+		if (connection != null) {
+			String sql = "select * from smbms_user where userName like ?";
+			Object[] params = { "%" + userName + "%" };
+			rs = BaseDao.execute(connection, pstm, rs, sql, params);
+			while (rs.next()) {
+				User _user = new User();
+				_user.setId(rs.getInt("id"));
+				_user.setUserCode(rs.getString("userCode"));
+				_user.setUserName(rs.getString("userName"));
+				_user.setGender(rs.getInt("gender"));
+				_user.setBirthday(rs.getDate("birthday"));
+				_user.setPhone(rs.getString("phone"));
+				_user.setUserType(rs.getInt("userType"));
+
+				userList.add(_user);
+			}
+			BaseDao.closeResource(null, pstm, rs);
+		}
+
+		return userList;
 	}
 }

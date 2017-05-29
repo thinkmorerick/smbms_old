@@ -1,7 +1,7 @@
 package cn.smbms.pojo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class User {
 
@@ -18,6 +18,18 @@ public class User {
 	private Timestamp creationDate; // 创建时间
 	private int modifyBy; // 更新者（userId）
 	private Timestamp modifyDate; // 更新时间
+
+	private int age; // 年龄
+
+	public int getAge() {
+		// long time = System.currentTimeMillis() - birthday.getTime();
+		// int age = Long.valueOf(time / 365 / 24 / 60 / 60 / 1000).intValue();
+
+		Date date = new Date();
+		int age2 = date.getYear() - birthday.getYear();
+
+		return age2;
+	}
 
 	public User() {
 		super();

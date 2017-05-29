@@ -21,7 +21,7 @@
 				src="${pageContext.request.contextPath }/images/btn_suppliers.gif" />
 		</a>
 		</li>
-		<li><a href="userList.html" target="mainFrame"><img
+		<li><a href="${pageContext.request.contextPath }/user.do" target="mainFrame"><img
 				src="${pageContext.request.contextPath }/images/btn_users.gif" />
 		</a>
 		</li>	
