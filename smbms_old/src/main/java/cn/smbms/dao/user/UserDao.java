@@ -35,4 +35,30 @@ public interface UserDao {
 	 */
 	public List<User> getUserList(Connection connection, String userName)
 			throws Exception;
+
+	/**
+	 * 根据delId删除User
+	 * @param connection
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean deleteUserById(Connection connection, int delId)
+			throws Exception;
+
+	/**
+	 * 根据id查询User
+	 * @param id
+	 * @return
+	 */
+	public User getUserById(Connection connection, String id) throws Exception;
+
+	/**
+	 * 修改User
+	 * @param connection
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean modify(Connection connection, User user) throws Exception;
 }

@@ -14,11 +14,11 @@
   
   <body>
 <div class="menu">
-
+		<input type="hidden" id="path" name="path" value="${pageContext.request.contextPath }"/>
 		<table>
 			<tbody>
 				<tr>
-					<td><form method="post" action="user.do">
+					<td><form method="post" action="${pageContext.request.contextPath }/user.do">
 							<input name="method" value="query" class="input-text" type="hidden"> 
 							用户名：<input name="queryname" class="input-text" type="text" value="${queryUserName }">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input value="查 询" type="submit">
@@ -76,9 +76,9 @@
 								</span>
 							</td>
 							<td>
-								<span>查看</span>
-								<span>修改</span>
-								<span>删除</span>
+								<span><a class="viewUser" href="javascript:;" userid=${user.id } username=${user.userName }>查看</a></span>
+								<span><a class="modifyUser" href="javascript:;" userid=${user.id } username=${user.userName }>修改</a></span>
+								<span><a class="deleteUser" href="javascript:;" userid=${user.id } username=${user.userName }>删除</a></span>
 							</td>
 						</tr>
 					</c:forEach>
@@ -92,10 +92,10 @@
 		</div>
 	</div>
 
-  <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.8.3.min.js"></script>
-  <script type="text/javascript">
- 
-  </script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/common.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/userlist.js"></script>
+	
     
   </body>
 </html>

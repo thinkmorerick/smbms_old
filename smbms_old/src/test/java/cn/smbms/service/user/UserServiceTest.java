@@ -33,6 +33,28 @@ public class UserServiceTest {
 	public void testGetUserList() {
 		List<User> userList = new ArrayList<User>();
 		userList = userService.getUserList("null");
-		Assert.assertEquals(10, userList.size());
+		Assert.assertEquals(7, userList.size());
+	}
+
+	@Test
+	public void testDeleteUserById() {
+		boolean result = userService.deleteUserById(14);
+		Assert.assertTrue("删除失败", result);
+	}
+
+	@Test
+	public void testGetUserById() {
+		User user = new User();
+		user = userService.getUserById(String.valueOf(1));
+		Assert.assertNull("不为空", user);
+	}
+
+	@Test
+	public void testModify() {
+		User user = new User();
+		user = userService.getUserById(String.valueOf(1));
+		user.setUserName("kkkkkkkkkkk");
+		boolean result = userService.modify(user);
+		Assert.assertTrue("更新失败", result);
 	}
 }

@@ -27,4 +27,32 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> getUserList(String queryUserName);
+
+	/**
+	 * 根据userCode查询出User
+	 * @param userCode
+	 * @return
+	 */
+	public User selectUserCodeExist(String userCode);
+
+	/**
+	 * 根据id删除User
+	 * @param delId
+	 * @return
+	 */
+	public boolean deleteUserById(Integer delId);
+
+	/**
+	 * 根据id查询User
+	 * @param id
+	 * @return
+	 */
+	public User getUserById(String id);
+
+	/**
+	 * 修改User
+	 * @param user
+	 * @return
+	 */
+	public boolean modify(User user);
 }

@@ -101,4 +101,101 @@ public class UserServiceImpl implements UserService {
 		}
 		return userList;
 	}
+
+	@Override
+	public User selectUserCodeExist(String userCode) {
+		Connection connection = null;
+		User user = null;
+		try {
+			connection = BaseDao.getConnection();
+			user = userDao.getLoginUser(connection, userCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			BaseDao.closeResource(connection, null, null);
+		}
+
+		return user;
+	}
+
+	@Override
+	public boolean deleteUserById(Integer delId) {
+		boolean flag = false;
+		Connection connection = null;
+		try {
+			connection = BaseDao.getConnection();
+			connection.setAutoCommit(false); // 开启JDBC事务管理
+			boolean result = userDao.deleteUserById(connection, delId);
+			connection.commit();
+
+			if (result) {
+				flag = true;
+				System.out.println("del success!");
+			} else {
+				System.out.println("del failed!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				System.out.println("进入roll back <==========");
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			// 在service层进行connection连接的关闭
+			BaseDao.closeResource(connection, null, null);
+		}
+
+		return flag;
+	}
+
+	@Override
+	public User getUserById(String id) {
+
+		Connection connection = null;
+		User _user = null;
+
+		try {
+			connection = BaseDao.getConnection();
+			_user = userDao.getUserById(connection, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			BaseDao.closeResource(connection, null, null);
+		}
+		return _user;
+	}
+
+	@Override
+	public boolean modify(User user) {
+		boolean flag = false;
+		Connection connection = null;
+		try {
+			connection = BaseDao.getConnection();
+			connection.setAutoCommit(false); // 开启JDBC事务管理
+			boolean result = userDao.modify(connection, user);
+			connection.commit();
+
+			if (result) {
+				flag = true;
+				System.out.println("update success!");
+			} else {
+				System.out.println("update failed!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				System.out.println("进入roll back <==========");
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			// 在service层进行connection连接的关闭
+			BaseDao.closeResource(connection, null, null);
+		}
+
+		return flag;
+	}
 }
