@@ -165,4 +165,20 @@ public class UserDaoImpl implements UserDao {
 		return flag;
 
 	}
+
+	@Override
+	public boolean updatePwd(Connection connection, int id, String pwd)
+			throws Exception {
+		boolean flag = false;
+		PreparedStatement pstm = null;
+		if (connection != null) {
+			String sql = "update smbms_user set userPassword=? where id =?";
+			Object[] params = { pwd, id };
+			if (BaseDao.execute(connection, pstm, sql, params) > 0) {
+				flag = true;
+			}
+			BaseDao.closeResource(null, pstm, null);
+		}
+		return flag;
+	}
 }

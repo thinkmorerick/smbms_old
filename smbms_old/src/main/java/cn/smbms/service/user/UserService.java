@@ -55,4 +55,12 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean modify(User user);
+
+	/**
+	 * 根据userId修改密码
+	 * @param id
+	 * @param newpassword
+	 * @return
+	 */
+	public boolean updatePwd(int id, String newpassword);
 }

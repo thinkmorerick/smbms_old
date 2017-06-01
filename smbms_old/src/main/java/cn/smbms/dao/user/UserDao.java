@@ -61,4 +61,14 @@ public interface UserDao {
 	 * @throws Exception
 	 */
 	public boolean modify(Connection connection, User user) throws Exception;
+
+	/**
+	 * 修改当前用户密码
+	 * @param connection
+	 * @param id
+	 * @param pwd
+	 * @return
+	 */
+	public boolean updatePwd(Connection connection, int id, String pwd)
+			throws Exception;
 }

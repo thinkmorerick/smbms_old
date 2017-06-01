@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,7 +56,56 @@ public class UserServlet extends HttpServlet {
 			this.getUserById(request, response, "jsp/usermodify.jsp");
 		} else if (method != null && method.equals("modifysave")) {
 			this.modify(request, response);
+		} else if (method != null && method.equals("pwdmodify")) {
+			this.getPwdByUserId(request, response);
+		} else if (method != null && method.equals("savepwd")) {
+			this.updatePwd(request, response);
 		}
+	}
+
+	private void updatePwd(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+
+		Object o = request.getSession().getAttribute(Constants.USER_SESSION);
+		String newpassword = request.getParameter("newpassword");
+		boolean flag = false;
+		if (o != null && !StringUtils.isNullOrEmpty(newpassword)) {
+			UserService userService = new UserServiceImpl();
+			flag = userService.updatePwd(((User) o).getId(), newpassword);
+			if (flag) {
+				request.setAttribute(Constants.SYS_MESSAGE, "修改密码成功！");
+			} else {
+				request.setAttribute(Constants.SYS_MESSAGE, "修改密码失败！");
+			}
+		} else {
+			request.setAttribute(Constants.SYS_MESSAGE, "修改密码失败！");
+		}
+		request.getRequestDispatcher("jsp/pwdmodify.jsp").forward(request,
+				response);
+	}
+
+	private void getPwdByUserId(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		Object o = request.getSession().getAttribute(Constants.USER_SESSION);
+		String oldpassword = request.getParameter("oldpassword");
+		Map<String, String> resultMap = new HashMap<String, String>();
+
+		if (null != o && !StringUtils.isNullOrEmpty(oldpassword)) {
+			String sessionPwd = ((User) o).getUserPassword();
+			if (oldpassword.equals(sessionPwd)) {
+				resultMap.put("result", "true");
+			} else {
+				resultMap.put("result", "false");
+			}
+		} else {
+			resultMap.put("result", "error");
+		}
+
+		response.setContentType("application/json");
+		PrintWriter outPrintWriter = response.getWriter();
+		outPrintWriter.write(JSONArray.toJSONString(resultMap));
+		outPrintWriter.flush();
+		outPrintWriter.close();
 	}
 
 	private void modify(HttpServletRequest request, HttpServletResponse response)
