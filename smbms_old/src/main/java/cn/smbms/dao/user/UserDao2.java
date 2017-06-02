@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import cn.smbms.dao.BaseDao;
-import cn.smbms.dao.impl.user.UserDaoImpl;
 import cn.smbms.pojo.User;
 
 public class UserDao2 {

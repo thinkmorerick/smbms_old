@@ -1,4 +1,4 @@
-package cn.smbms.dao.impl.user;
+package cn.smbms.dao.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.smbms.dao.BaseDao;
-import cn.smbms.dao.user.UserDao;
 import cn.smbms.pojo.User;
 
 /**
@@ -45,30 +44,30 @@ public class UserDaoImpl implements UserDao {
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		User user = null; // 不能new
+		User _user = null; // 不能new
 		if (null != connection) {
 			String sql = "select * from smbms_user where userCode=?";
 			Object[] params = { userCode };
 			rs = BaseDao.execute(connection, pstm, rs, sql, params);
 			if (rs.next()) {
-				user = new User();
-				user.setId(rs.getInt("id"));
-				user.setUserCode(rs.getString("userCode"));
-				user.setUserName(rs.getString("userName"));
-				user.setUserPassword(rs.getString("userPassword"));
-				user.setGender(rs.getInt("gender"));
-				user.setBirthday(rs.getDate("birthday"));
-				user.setPhone(rs.getString("phone"));
-				user.setAddress(rs.getString("address"));
-				user.setUserType(rs.getInt("userType"));
-				user.setCreateBy(rs.getInt("createBy"));
-				user.setCreationDate(rs.getTimestamp("creationDate"));
-				user.setModifyBy(rs.getInt("modifyBy"));
-				user.setModifyDate(rs.getTimestamp("modifyDate"));
+				_user = new User();
+				_user.setId(rs.getInt("id"));
+				_user.setUserCode(rs.getString("userCode"));
+				_user.setUserName(rs.getString("userName"));
+				_user.setUserPassword(rs.getString("userPassword"));
+				_user.setGender(rs.getInt("gender"));
+				_user.setBirthday(rs.getDate("birthday"));
+				_user.setPhone(rs.getString("phone"));
+				_user.setAddress(rs.getString("address"));
+				_user.setUserType(rs.getInt("userType"));
+				_user.setCreateBy(rs.getInt("createBy"));
+				_user.setCreationDate(rs.getTimestamp("creationDate"));
+				_user.setModifyBy(rs.getInt("modifyBy"));
+				_user.setModifyDate(rs.getTimestamp("modifyDate"));
 			}
 			BaseDao.closeResource(null, pstm, rs);
 		}
-		return user;
+		return _user;
 	}
 
 	@Override

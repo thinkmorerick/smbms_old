@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.smbms.pojo.User;
-import cn.smbms.service.impl.user.UserServiceImpl;
 import cn.smbms.service.user.UserService;
+import cn.smbms.service.user.UserServiceImpl;
 import cn.smbms.tools.Constants;
 
 public class LoginServlet extends HttpServlet {

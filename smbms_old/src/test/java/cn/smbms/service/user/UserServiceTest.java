@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cn.smbms.pojo.User;
-import cn.smbms.service.impl.user.UserServiceImpl;
 
 public class UserServiceTest {
 	private UserService userService;

@@ -1,14 +1,13 @@
-package cn.smbms.service.impl.user;
+package cn.smbms.service.user;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 import cn.smbms.dao.BaseDao;
-import cn.smbms.dao.impl.user.UserDaoImpl;
 import cn.smbms.dao.user.UserDao;
+import cn.smbms.dao.user.UserDaoImpl;
 import cn.smbms.pojo.User;
-import cn.smbms.service.user.UserService;
 
 /**
  * service层捕获异常，进行事务处理

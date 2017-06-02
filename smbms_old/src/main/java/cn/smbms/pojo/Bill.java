@@ -19,6 +19,16 @@ public class Bill {
 	private Timestamp modifyDate;// 更新时间
 	private int modifyBy;// 更新者
 
+	private String providerName; // 供应商名称
+
+	public String getProviderName() {
+		return providerName;
+	}
+
+	public void setProviderName(String providerName) {
+		this.providerName = providerName;
+	}
+
 	public Bill() {
 		super();
 	}
