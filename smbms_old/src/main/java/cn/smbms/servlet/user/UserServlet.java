@@ -18,6 +18,7 @@ import cn.smbms.pojo.User;
 import cn.smbms.service.user.UserService;
 import cn.smbms.service.user.UserServiceImpl;
 import cn.smbms.tools.Constants;
+import cn.smbms.tools.PageSupport;
 
 import com.alibaba.fastjson.JSONArray;
 import com.mysql.jdbc.StringUtils;
@@ -40,7 +41,6 @@ public class UserServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String method = request.getParameter("method");
-		System.out.println("method---->" + method);
 		if (method != null && method.equals("add")) {
 			// 增加操作
 			this.add(request, response);
@@ -194,7 +194,6 @@ public class UserServlet extends HttpServlet {
 		// 判断用户账号是否可用
 		String userCode = request.getParameter("userCode");
 		HashMap<String, String> resultMap = new HashMap<String, String>();
-		System.out.println("userCode========" + userCode);
 		if (StringUtils.isNullOrEmpty(userCode)) {
 			// userCode == null || userCode.equals("")
 			resultMap.put("userCode", "exist");
@@ -202,7 +201,6 @@ public class UserServlet extends HttpServlet {
 			UserService userService = new UserServiceImpl();
 			User user = userService.selectUserCodeExist(userCode);
 			if (null != user) { // 存在
-				System.out.println("userCodeExist===================");
 				resultMap.put("userCode", "exist");
 			} else {
 				resultMap.put("userCode", "notexist");
@@ -219,7 +217,7 @@ public class UserServlet extends HttpServlet {
 		outpPrintWriter.close(); // 关闭流
 	}
 
-	private void query(HttpServletRequest request, HttpServletResponse response)
+	private void query2(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 查询用户列表
 		String queryUserName = request.getParameter("queryname");
@@ -229,14 +227,11 @@ public class UserServlet extends HttpServlet {
 		 * http://localhost:8080/smbms_old/userlist.do?queryname=
 		 * ----queryUserName---""
 		 */
-		System.out.println("queryUserName servlet--------" + queryUserName);
 		if (queryUserName == null) {
 			queryUserName = "";
 		}
 		UserService userService = new UserServiceImpl();
-		userService.getUserList(queryUserName);
-		List<User> userList = null;
-		userList = userService.getUserList(queryUserName);
+		List<User> userList = userService.getUserList(queryUserName);
 		request.setAttribute("userList", userList);
 		request.setAttribute("queryUserName", queryUserName);
 		request.getRequestDispatcher("/jsp/userlist.jsp").forward(request,
@@ -245,7 +240,6 @@ public class UserServlet extends HttpServlet {
 
 	private void add(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("add()=======================");
 		String userCode = request.getParameter("userCode");
 		String userName = request.getParameter("userName");
 		String userPassword = request.getParameter("userPassword");
@@ -279,5 +273,45 @@ public class UserServlet extends HttpServlet {
 			request.getRequestDispatcher("jsp/useradd.jsp").forward(request,
 					response);
 		}
+	}
+
+	// 分页查询用户列表
+	private void query(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String pageIndex = request.getParameter("pageIndex");
+		String queryUserName = request.getParameter("queryUserName");
+		if (queryUserName == null) {
+			queryUserName = "";
+		}
+		UserService userService = new UserServiceImpl();
+		int userPageSize = Constants.USER_PAGE_SIZE;
+		// 实例化PageSupport对象
+		PageSupport pageSupport = new PageSupport();
+		pageSupport.setPageSize(userPageSize);
+		// 查询总记录数
+		int recCount = userService.getRecCountByName(queryUserName);
+		pageSupport.setRecCount(recCount);
+		// 设置当前页码
+		int pageStartNo = 1;
+		if (!StringUtils.isNullOrEmpty(pageIndex)) {// 设置当前页码
+			pageStartNo = Integer.parseInt(pageIndex);
+			if (pageStartNo < 1) {
+				pageStartNo = 1;
+			} else if (pageStartNo > pageSupport.getTotalPageCount()) {
+				pageStartNo = pageSupport.getTotalPageCount();
+			}
+		}
+		pageSupport.setCurrPageNo(pageStartNo);
+		// 分页获取userlist
+		HashMap<String, Integer> pageInfo = new HashMap<String, Integer>();
+		pageInfo.put(Constants.PAGE_START_NO, Integer.valueOf(pageStartNo));
+		pageInfo.put(Constants.PAGE_SIZE, Integer.valueOf(userPageSize));
+		List<User> userList = userService.getPageUserList(queryUserName,
+				pageInfo);
+		request.setAttribute("pageSupport", pageSupport);
+		request.setAttribute("userList", userList);
+		request.setAttribute("queryUserName", queryUserName);
+		request.getRequestDispatcher("jsp/userlist.jsp").forward(request,
+				response);
 	}
 }

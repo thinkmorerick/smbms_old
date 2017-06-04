@@ -2,6 +2,7 @@ package cn.smbms.service.user;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.smbms.dao.BaseDao;
@@ -33,21 +34,14 @@ public class UserServiceImpl implements UserService {
 		try {
 			connection = BaseDao.getConnection();
 			connection.setAutoCommit(false); // 开启JDBC事务管理
-			int updateRows = userDao.add(connection, user);
+			userDao.add(connection, user);
 			/**			userDao.update(); // 多表操作，commit之前继续调用其他方法
 						userDao.delete();*/
 			connection.commit();
 
-			if (updateRows > 0) {
-				flag = true;
-				System.out.println("add success!");
-			} else {
-				System.out.println("add failed!");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
-				System.out.println("进入roll back <==========");
 				connection.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
@@ -88,8 +82,6 @@ public class UserServiceImpl implements UserService {
 	public List<User> getUserList(String queryUserName) {
 		Connection connection = null;
 		List<User> userList = null;
-		System.out.println("queryUserName ====>" + queryUserName);
-
 		try {
 			connection = BaseDao.getConnection();
 			userList = userDao.getUserList(connection, queryUserName);
@@ -124,19 +116,12 @@ public class UserServiceImpl implements UserService {
 		try {
 			connection = BaseDao.getConnection();
 			connection.setAutoCommit(false); // 开启JDBC事务管理
-			boolean result = userDao.deleteUserById(connection, delId);
+			userDao.deleteUserById(connection, delId);
 			connection.commit();
 
-			if (result) {
-				flag = true;
-				System.out.println("del success!");
-			} else {
-				System.out.println("del failed!");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
-				System.out.println("进入roll back <==========");
 				connection.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
@@ -173,19 +158,12 @@ public class UserServiceImpl implements UserService {
 		try {
 			connection = BaseDao.getConnection();
 			connection.setAutoCommit(false); // 开启JDBC事务管理
-			boolean result = userDao.modify(connection, user);
+			userDao.modify(connection, user);
 			connection.commit();
 
-			if (result) {
-				flag = true;
-				System.out.println("update success!");
-			} else {
-				System.out.println("update failed!");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
-				System.out.println("进入roll back <==========");
 				connection.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
@@ -212,5 +190,36 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return flag;
+	}
+
+	@Override
+	public List<User> getPageUserList(String userName,
+			HashMap<String, Integer> pageInfo) {
+		Connection connection = null;
+		List<User> userList = null;
+		try {
+			connection = BaseDao.getConnection();
+			userList = userDao.getPageUserList(connection, userName, pageInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			BaseDao.closeResource(connection, null, null);
+		}
+		return userList;
+	}
+
+	@Override
+	public int getRecCountByName(String userName) {
+		int recCount = 0;
+		Connection connection = null;
+		try {
+			connection = BaseDao.getConnection();
+			recCount = userDao.getRecCountByName(connection, userName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			BaseDao.closeResource(connection, null, null);
+		}
+		return recCount;
 	}
 }

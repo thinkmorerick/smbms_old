@@ -41,8 +41,8 @@ public class ProviderDaoImpl implements ProviderDao {
 		ResultSet rs = null;
 		List<Provider> providerList = new ArrayList<Provider>();
 		if (null != connection) {
-			String sql = "select * from smbms_provider where proName=?";
-			Object[] params = { proName };
+			String sql = "select * from smbms_provider where proName like ?";
+			Object[] params = { "%" + proName + "%" };
 			rs = BaseDao.execute(connection, pstm, rs, sql, params);
 			while (rs.next()) {
 				Provider _provider = new Provider();
@@ -118,15 +118,14 @@ public class ProviderDaoImpl implements ProviderDao {
 		boolean flag = false;
 		PreparedStatement pstm = null;
 		if (null != connection) {
-			String sql = "update smbms_provider set proCode=?,proName=?,"
+			String sql = "update smbms_provider set "
 					+ "proDesc=?,proContact=?,proPhone=?,proAddress=?,proFax=?,"
-					+ "createBy=?,creationDate=?,modifyBy=?,modifyDate=? where id=?";
-			Object[] params = { provider.getProCode(), provider.getProName(),
-					provider.getProDesc(), provider.getProContact(),
-					provider.getProPhone(), provider.getProAddress(),
-					provider.getProFax(), provider.getCreateBy(),
-					provider.getCreationDate(), provider.getModifyBy(),
-					provider.getModifyDate(), provider.getId() };
+					+ "modifyBy=?,modifyDate=? where id=?";
+			Object[] params = { provider.getProDesc(),
+					provider.getProContact(), provider.getProPhone(),
+					provider.getProAddress(), provider.getProFax(),
+					provider.getModifyBy(), provider.getModifyDate(),
+					provider.getId() };
 			if (BaseDao.execute(connection, pstm, sql, params) > 0) {
 				flag = true;
 			}

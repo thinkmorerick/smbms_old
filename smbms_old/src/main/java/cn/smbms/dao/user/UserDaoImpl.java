@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.smbms.dao.BaseDao;
 import cn.smbms.pojo.User;
+import cn.smbms.tools.Constants;
 
 /**
  * dao层抛出异常，让service层去捕获处理
@@ -179,5 +181,54 @@ public class UserDaoImpl implements UserDao {
 			BaseDao.closeResource(null, pstm, null);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<User> getPageUserList(Connection connection, String userName,
+			HashMap<String, Integer> pageInfo) throws Exception {
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		List<User> userList = new ArrayList<User>();
+		if (connection != null) {
+			String sql = "select * from smbms_user where userName like ? order by creationDate desc limit ?,?";
+			int startPageNo = pageInfo.get(Constants.PAGE_START_NO);
+			int pageSize = pageInfo.get(Constants.PAGE_SIZE);
+			startPageNo = (startPageNo - 1) * pageSize;
+			Object[] params = { "%" + userName + "%", startPageNo, pageSize };
+			rs = BaseDao
+					.execute(connection, preparedStatement, rs, sql, params);
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setUserCode(rs.getString("userCode"));
+				user.setUserName(rs.getString("userName"));
+				user.setGender(rs.getInt("gender"));
+				user.setBirthday(rs.getDate("birthday"));
+				user.setPhone(rs.getString("Phone"));
+				user.setUserType(rs.getInt("userType"));
+				userList.add(user);
+			}
+			BaseDao.closeResource(null, preparedStatement, rs);
+		}
+		return userList;
+	}
+
+	@Override
+	public int getRecCountByName(Connection connection, String userName)
+			throws Exception {
+		int recCount = 0;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		if (connection != null) {
+			String sql = "select count(1) from smbms_user where userName like ?";
+			Object[] params = { "%" + userName + "%" };
+			resultSet = BaseDao.execute(connection, preparedStatement,
+					resultSet, sql, params);
+			if (resultSet.next()) {
+				recCount = resultSet.getInt("count(1)");
+			}
+			BaseDao.closeResource(null, preparedStatement, resultSet);
+		}
+		return recCount;
 	}
 }

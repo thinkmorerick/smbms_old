@@ -1,5 +1,6 @@
 package cn.smbms.service.bill;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cn.smbms.pojo.Bill;
@@ -58,5 +59,20 @@ public interface BillService {
 	 * @return
 	 */
 	public int getBillCountByProviderId(String providerId);
+
+	/**
+	 * 获取分页BillList,模糊查询
+	 * @param bill
+	 * @return
+	 */
+	public List<Bill> getPageBillList(Bill bill,
+			HashMap<String, Integer> pageInfo);
+
+	/**
+	 * 获取订单条数，模糊查询
+	 * @param bill
+	 * @return
+	 */
+	public int getRecCountByBill(Bill bill);
 
 }

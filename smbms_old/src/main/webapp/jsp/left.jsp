@@ -13,11 +13,11 @@
 </head>
 <body class="frame-bd">
 	<ul class="left-menu">
-		<li><a href="billList.html" target="mainFrame"><img
+		<li><a href="${pageContext.request.contextPath }/bill.do?method=query" target="mainFrame"><img
 				src="${pageContext.request.contextPath }/images/btn_bill.gif" />
 		</a>
 		</li>
-		<li><a href="providerList.html" target="mainFrame"><img
+		<li><a href="${pageContext.request.contextPath }/provider.do?method=query" target="mainFrame"><img
 				src="${pageContext.request.contextPath }/images/btn_suppliers.gif" />
 		</a>
 		</li>

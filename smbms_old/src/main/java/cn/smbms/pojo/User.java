@@ -26,9 +26,10 @@ public class User {
 		// int age = Long.valueOf(time / 365 / 24 / 60 / 60 / 1000).intValue();
 
 		Date date = new Date();
-		int age2 = date.getYear() - birthday.getYear();
-
-		return age2;
+		if (birthday != null) {
+			age = date.getYear() - birthday.getYear();
+		}
+		return age;
 	}
 
 	public User() {

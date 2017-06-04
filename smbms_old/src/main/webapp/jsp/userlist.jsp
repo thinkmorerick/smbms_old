@@ -18,7 +18,10 @@
 		<table>
 			<tbody>
 				<tr>
-					<td><form method="post" action="${pageContext.request.contextPath }/user.do">
+					<td><form method="post" name="queryUser" id="queryUser" action="${pageContext.request.contextPath }/user.do">
+							<input type="hidden" name="rqueryUserName" id="rqueryUserName" type="text" value="${queryUserName }"/>
+							<input type="hidden" name="pageQuery" id="pageQuery" value="false"/>
+							<input type="hidden" name="pageIndex" id="pageIndex" value="1"/>
 							<input name="method" value="query" class="input-text" type="hidden"> 
 							用户名：<input name="queryname" class="input-text" type="text" value="${queryUserName }">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input value="查 询" type="submit">
@@ -89,6 +92,35 @@
 					
 				</tbody>
 			</table>
+			<table class="page-bar">
+			<tr>
+				<td><div class="page-cont">
+						<span>共${pageSupport.recCount }条记录&nbsp;&nbsp; ${pageSupport.currPageNo }/${pageSupport.totalPageCount }页</span>
+					</div>
+				</td>
+				<td>
+					<div class="page-inner">
+						<c:if test="${pageSupport.currPageNo > 1 }">
+						<a href="javascript:jump_to(1);">首页</a>
+						<a href="javascript:jump_to(${pageSupport.currPageNo - 1 });">上一页</a>
+						</c:if>
+						<c:if test="${pageSupport.currPageNo < pageSupport.totalPageCount }">
+						<a href="javascript:jump_to(${pageSupport.currPageNo + 1 });">下一页</a>
+						<a href="javascript:jump_to(${pageSupport.totalPageCount });">最后一页</a>
+						</c:if>
+						&nbsp;&nbsp;&nbsp;
+					</div>
+				</td>
+				<td>
+					<div class="page-go-form">
+					 	<label>跳转至</label>
+						<label><input type="text" name="custompage" id="custompage" size="2" title="输入页码，按回车快速跳转" value=""> 页
+					    <button type="button" class="page-btn" id="page-btn">GO</button>
+						</label>
+					</div>
+				</td>
+			</tr>
+		</table>
 		</div>
 	</div>
 

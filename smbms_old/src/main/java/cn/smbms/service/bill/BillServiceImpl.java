@@ -2,6 +2,7 @@ package cn.smbms.service.bill;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.smbms.dao.BaseDao;
@@ -135,6 +136,37 @@ public class BillServiceImpl implements BillService {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+		} finally {
+			BaseDao.closeResource(connection, null, null);
+		}
+		return billCount;
+	}
+
+	@Override
+	public List<Bill> getPageBillList(Bill bill,
+			HashMap<String, Integer> pageInfo) {
+		List<Bill> pageBillList = null;
+		Connection connection = null;
+		try {
+			connection = BaseDao.getConnection();
+			pageBillList = billDao.getPageBillList(connection, bill, pageInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			BaseDao.closeResource(connection, null, null);
+		}
+		return pageBillList;
+	}
+
+	@Override
+	public int getRecCountByBill(Bill bill) {
+		int billCount = 0;
+		Connection connection = null;
+		try {
+			connection = BaseDao.getConnection();
+			billCount = billDao.getRecCountByBill(connection, bill);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			BaseDao.closeResource(connection, null, null);
 		}

@@ -1,6 +1,7 @@
 package cn.smbms.dao.user;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.smbms.pojo.User;
@@ -70,5 +71,26 @@ public interface UserDao {
 	 * @return
 	 */
 	public boolean updatePwd(Connection connection, int id, String pwd)
+			throws Exception;
+
+	/**
+	 * 分页获取pageUserList,通过userName模糊查询
+	 * @param connection
+	 * @param userName
+	 * @param pageInfo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> getPageUserList(Connection connection, String userName,
+			HashMap<String, Integer> pageInfo) throws Exception;
+
+	/**
+	 * 通过userName查询得到总记录条数
+	 * @param connection
+	 * @param userName
+	 * @return
+	 * @throws Exception
+	 */
+	public int getRecCountByName(Connection connection, String userName)
 			throws Exception;
 }

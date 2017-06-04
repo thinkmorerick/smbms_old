@@ -1,6 +1,7 @@
 package cn.smbms.dao.bill;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.smbms.pojo.Bill;
@@ -60,6 +61,27 @@ public interface BillDao {
 	 * @return
 	 */
 	public int getBillCountByProviderId(Connection connection, String providerId)
+			throws Exception;
+
+	/**
+	 * 分页获取pageBillList,通过Bill模糊查询
+	 * @param connection
+	 * @param bill
+	 * @param pageInfo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Bill> getPageBillList(Connection connection, Bill bill,
+			HashMap<String, Integer> pageInfo) throws Exception;
+
+	/**
+	 * 获取订单条数，模糊查询
+	 * @param connection
+	 * @param bill
+	 * @return
+	 * @throws Exception
+	 */
+	public int getRecCountByBill(Connection connection, Bill bill)
 			throws Exception;
 
 }

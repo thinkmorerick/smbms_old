@@ -1,5 +1,6 @@
 package cn.smbms.service.user;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cn.smbms.pojo.User;
@@ -63,4 +64,20 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean updatePwd(int id, String newpassword);
+
+	/**
+	 * 分页获取userList
+	 * @param userName
+	 * @param pageInfo
+	 * @return
+	 */
+	public List<User> getPageUserList(String userName,
+			HashMap<String, Integer> pageInfo);
+
+	/**
+	 * 通过userName查询得到总记录条数
+	 * @param userName
+	 * @return
+	 */
+	public int getRecCountByName(String userName);
 }

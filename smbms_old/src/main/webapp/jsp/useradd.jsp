@@ -19,7 +19,7 @@
 			<div class="title">用户管理&gt;&gt;</div>
 
 		</div>
-		<form id="userForm" name="form1" method="post" action="${pageContext.request.contextPath }/user.do">
+		<form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath }/user.do">
 			<input type="hidden" name="method" value="add">
 			<div class="content">
 				<input type="hidden" id="path" name="path" value="${pageContext.request.contextPath }"/>

@@ -15,6 +15,16 @@
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>cn.smbms.servlet.user.UserServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ProviderServlet</servlet-name>
+    <servlet-class>cn.smbms.servlet.provider.ProviderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BillServlet</servlet-name>
+    <servlet-class>cn.smbms.servlet.bill.BillServlet</servlet-class>
+  </servlet>
+
+
   
   
   
@@ -29,6 +39,14 @@
   <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/user.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProviderServlet</servlet-name>
+    <url-pattern>/provider.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BillServlet</servlet-name>
+    <url-pattern>/bill.do</url-pattern>
   </servlet-mapping>
   
   
